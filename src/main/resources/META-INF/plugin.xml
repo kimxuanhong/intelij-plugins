@@ -33,6 +33,12 @@
                 description="Convert selected text to snake_case or camelCase">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
         </action>
+        <action id="RemoveUnicodeAction"
+                class="com.xhk.convertplugins.RemoveUnicodeAction"
+                text="Convert to non unicode"
+                description="Convert to non unicode">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
+        </action>
     </actions>
 
 </idea-plugin>
