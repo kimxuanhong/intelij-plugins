@@ -4,9 +4,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.editor.Document
-import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.editor.SelectionModel
+import com.intellij.openapi.editor.*
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.util.TextRange
@@ -17,17 +15,24 @@ class ConvertToSnakeCaseAction : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
         // Lấy đoạn văn bản được chọn
         val editor = e.getRequiredData(CommonDataKeys.EDITOR)
-        val selectionModel = editor.selectionModel
-        val selectedText = selectionModel.selectedText
+        if (e.project != null) {
+            val caretModel: CaretModel = editor.caretModel
+            // Iterate through each caret
+            WriteCommandAction.runWriteCommandAction(e.project) {
+                for (caret: Caret in caretModel.allCarets) {
+                    val selectedText = caret.selectedText
 
-        // Kiểm tra nếu có văn bản được chọn
-        if (!selectedText.isNullOrEmpty()) {
-            // Convert đoạn văn bản sang snake_case
-            val convertedText = convertToSnakeCase(selectedText)
+                    if (selectedText != null) {
+                        // Chuyển đổi văn bản đã chọn thành CamelCase hoặc SnakeCase
+                        val convertedText = convertToSnakeCase(selectedText)
 
-            // Lấy Document và thay thế văn bản đã chọn
-            e.project?.let { replaceTextInEditor(it, editor, selectionModel, convertedText) }
-        } else {
+                        // Thay thế văn bản đã chọn bằng văn bản đã chuyển đổi
+                        editor.document.replaceString(caret.selectionStart, caret.selectionEnd, convertedText)
+                    }
+                }
+            }
+        }
+        else {
             Messages.showMessageDialog(
                 e.project,
                 "No text selected!",
@@ -41,12 +46,5 @@ class ConvertToSnakeCaseAction : AnAction() {
         return text.replace(Regex("([a-z])([A-Z])"), "$1_$2")
             .replace(Regex("([A-Z]+)([A-Z][a-z])"), "$1_$2")
             .split(Regex("[ _]+")).joinToString("_") { it.lowercase(Locale.getDefault()) }.lowercase()
-    }
-
-    fun replaceTextInEditor(project: Project, editor: Editor, textRange: SelectionModel, newText: String) {
-        // Sử dụng WriteCommandAction để đảm bảo quyền truy cập ghi trong IntelliJ
-        WriteCommandAction.runWriteCommandAction(project) {
-            editor.document.replaceString(textRange.selectionStart, textRange.selectionEnd, newText)
-        }
     }
 }
