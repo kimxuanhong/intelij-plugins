@@ -4,10 +4,9 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.editor.*
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.editor.Caret
+import com.intellij.openapi.editor.CaretModel
 import com.intellij.openapi.ui.Messages
-import java.util.*
 
 class RemoveUnicodeAction : AnAction() {
 
@@ -23,15 +22,14 @@ class RemoveUnicodeAction : AnAction() {
 
                     if (selectedText != null) {
                         // Chuyển đổi văn bản đã chọn thành CamelCase hoặc SnakeCase
-                        val convertedText =  UnicodeUtils.removeAccent(selectedText)
+                        val convertedText = UnicodeUtils.removeAccent(selectedText)
 
                         // Thay thế văn bản đã chọn bằng văn bản đã chuyển đổi
                         editor.document.replaceString(caret.selectionStart, caret.selectionEnd, convertedText)
                     }
                 }
             }
-        }
-        else {
+        } else {
             Messages.showMessageDialog(
                 e.project,
                 "No text selected!",

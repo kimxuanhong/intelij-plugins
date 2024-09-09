@@ -4,8 +4,8 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.editor.*
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.editor.Caret
+import com.intellij.openapi.editor.CaretModel
 import com.intellij.openapi.ui.Messages
 import java.util.*
 
@@ -30,8 +30,7 @@ class ConvertToCamelCaseAction : AnAction() {
                     }
                 }
             }
-        }
-        else {
+        } else {
             Messages.showMessageDialog(
                 e.project,
                 "No text selected!",
@@ -43,7 +42,7 @@ class ConvertToCamelCaseAction : AnAction() {
 
     private fun convertToCamelCase(text: String): String {
         return text.replace("\\s+".toRegex(), " ")  // Thay thế nhiều dấu cách bằng một dấu cách
-            .split(Regex("[ _]+"))
+            .split(Regex("[ _-]+"))
             .mapIndexed { index, word ->
                 if (index == 0) word else word.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
             }

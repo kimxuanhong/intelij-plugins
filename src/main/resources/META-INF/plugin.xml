@@ -24,13 +24,19 @@
         <action id="ConvertToCamelCaseAction"
                 class="com.xhk.convertplugins.ConvertToCamelCaseAction"
                 text="Convert to Camel"
-                description="Convert selected text to snake_case or camelCase">
+                description="Convert selected text to camelCase">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
         </action>
         <action id="ConvertTextAction"
                 class="com.xhk.convertplugins.ConvertToSnakeCaseAction"
                 text="Convert to Snake"
-                description="Convert selected text to snake_case or camelCase">
+                description="Convert selected text to snake_case">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
+        </action>
+        <action id="ConvertToKebabCaseAction"
+                class="com.xhk.convertplugins.ConvertToKebabCaseAction"
+                text="Convert to Kebab"
+                description="Convert selected text to kebab case">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
         </action>
         <action id="RemoveUnicodeAction"

@@ -9,7 +9,7 @@ import com.intellij.openapi.editor.CaretModel
 import com.intellij.openapi.ui.Messages
 import java.util.*
 
-class ConvertToSnakeCaseAction : AnAction() {
+class ConvertToKebabCaseAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         // Lấy đoạn văn bản được chọn
@@ -23,7 +23,7 @@ class ConvertToSnakeCaseAction : AnAction() {
 
                     if (selectedText != null) {
                         // Chuyển đổi văn bản đã chọn thành CamelCase hoặc SnakeCase
-                        val convertedText = convertToSnakeCase(selectedText)
+                        val convertedText = convertToKebabCase(selectedText)
 
                         // Thay thế văn bản đã chọn bằng văn bản đã chuyển đổi
                         editor.document.replaceString(caret.selectionStart, caret.selectionEnd, convertedText)
@@ -40,9 +40,9 @@ class ConvertToSnakeCaseAction : AnAction() {
         }
     }
 
-    private fun convertToSnakeCase(text: String): String {
-        return text.replace(Regex("([a-z])([A-Z])"), "$1_$2")
-            .replace(Regex("([A-Z]+)([A-Z][a-z])"), "$1_$2")
-            .split(Regex("[ _-]+")).joinToString("_") { it.lowercase(Locale.getDefault()) }.lowercase()
+    private fun convertToKebabCase(text: String): String {
+        return text.replace(Regex("([a-z])([A-Z])"), "$1-$2")
+            .replace(Regex("([A-Z]+)([A-Z][a-z])"), "$1-$2")
+            .split(Regex("[ _-]+")).joinToString("-") { it.lowercase(Locale.getDefault()) }.lowercase()
     }
 }
