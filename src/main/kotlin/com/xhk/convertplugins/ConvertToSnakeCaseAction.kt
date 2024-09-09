@@ -10,6 +10,7 @@ import com.intellij.openapi.editor.SelectionModel
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.util.TextRange
+import java.util.*
 
 class ConvertToSnakeCaseAction : AnAction() {
 
@@ -38,7 +39,8 @@ class ConvertToSnakeCaseAction : AnAction() {
 
     private fun convertToSnakeCase(text: String): String {
         return text.replace(Regex("([a-z])([A-Z])"), "$1_$2")
-            .replace(Regex("([A-Z]+)([A-Z][a-z])"), "$1_$2").lowercase()
+            .replace(Regex("([A-Z]+)([A-Z][a-z])"), "$1_$2")
+            .split(Regex("[ _]+")).joinToString("_") { it.lowercase(Locale.getDefault()) }.lowercase()
     }
 
     fun replaceTextInEditor(project: Project, editor: Editor, textRange: SelectionModel, newText: String) {

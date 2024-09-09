@@ -37,7 +37,8 @@ class ConvertToCamelCaseAction : AnAction() {
     }
 
     private fun convertToCamelCase(text: String): String {
-        return text.split("_")
+        return text.replace("\\s+".toRegex(), " ")  // Thay thế nhiều dấu cách bằng một dấu cách
+            .split(Regex("[ _]+"))
             .mapIndexed { index, word ->
                 if (index == 0) word else word.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
             }
