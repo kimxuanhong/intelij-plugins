@@ -31,6 +31,7 @@ class GenerateFile {
                 put("Integer", Int::class.java.name)
                 put("Float", Float::class.java.name)
                 put("String", String::class.java.name)
+                put("Long", Long::class.java.name)
                 put("List", MutableList::class.java.name)
                 put("Set", MutableSet::class.java.name)
                 put("Map", MutableMap::class.java.name)
