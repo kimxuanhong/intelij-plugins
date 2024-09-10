@@ -109,7 +109,7 @@ class GenerateFile {
 
                 //Messages.showErrorDialog(project, "Please select a directory.", "Error")
 
-                mainContent.append(content.toString()).append("\n\n=====================================================")
+                mainContent.append(content.toString()).append("\n\n=====================================================\n\n")
                 println("File written successfully!")
             }
 
