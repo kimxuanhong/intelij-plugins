@@ -45,6 +45,14 @@
                 description="Convert to non unicode">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
         </action>
+
+        <action
+                id="CreateJavaFileFromJsonAction"
+                class="com.xhk.convertplugins.CreateJavaFileFromJsonAction"
+                text="Create Java File from JSON"
+                description="Generate Java file from JSON input">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
     </actions>
 
 </idea-plugin>
