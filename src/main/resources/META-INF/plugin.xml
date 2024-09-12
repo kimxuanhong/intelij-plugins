@@ -21,6 +21,12 @@
     </extensions>
 
     <actions>
+        <action id="GoGetSetAction"
+                class="com.xhk.convertplugins.GoGetSetAction"
+                text="Generate Go Getter/Setter"
+                description="Generate Getter/Setter for struct">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
+        </action>
         <action id="GoBuilderAction"
                 class="com.xhk.convertplugins.GoBuilderAction"
                 text="Generate Go Builder"
