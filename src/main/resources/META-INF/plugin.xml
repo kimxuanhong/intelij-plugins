@@ -21,6 +21,18 @@
     </extensions>
 
     <actions>
+        <action id="GoBuilderAction"
+                class="com.xhk.convertplugins.GoBuilderAction"
+                text="Generate Go Builder"
+                description="Generate builder for struct">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
+        </action>
+        <action id="GoImplementAction"
+                class="com.xhk.convertplugins.GoImplementAction"
+                text="Generate Go Implement"
+                description="Generate Implement for interface">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
+        </action>
         <action id="ConvertToCamelCaseAction"
                 class="com.xhk.convertplugins.ConvertToCamelCaseAction"
                 text="Convert to Camel"
