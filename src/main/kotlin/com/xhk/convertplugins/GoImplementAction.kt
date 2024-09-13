@@ -6,7 +6,6 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.SelectionModel
 import com.intellij.openapi.ui.Messages
-import java.util.*
 
 class GoImplementAction : AnAction() {
 
@@ -51,12 +50,13 @@ class GoImplementAction : AnAction() {
         builder.append("type ").append(interfaceName).append("Impl struct {\n")
         builder.append("}\n\n")
 
-        builder.append("var instance").append(interfaceName).append(" *").append(interfaceName).append("Impl\n\n")
+        builder.append("var instance").append(interfaceName).append(" *").append(interfaceName).append("Impl\n")
+        builder.append("var once sync.Once").append("\n\n")
 
-        builder.append("func New").append(interfaceName).append("() *").append(interfaceName).append("Impl {\n")
-        builder.append("    if instance").append(interfaceName).append(" == nil {\n")
+        builder.append("func ").append(interfaceName).append("Instance() *").append(interfaceName).append("Impl {\n")
+        builder.append("    once.Do(func() {").append("\n")
         builder.append("        instance").append(interfaceName).append(" = &").append(interfaceName).append("Impl{}\n")
-        builder.append("    }\n")
+        builder.append("    })\n")
         builder.append("    return instance").append(interfaceName).append(";\n")
         builder.append("}\n\n")
 
@@ -95,7 +95,7 @@ class GoImplementAction : AnAction() {
             method.append("    // Implement logic here\n")
 
             // Nếu kiểu trả về là con trỏ hoặc slice, thêm return nil
-            if (returnType.startsWith("*") || returnType.startsWith("[]")) {
+            if (returnType.startsWith("*") || returnType.startsWith("[]") || returnType.startsWith("error")) {
                 method.append("    return nil\n")
             }
             method.append("}\n")

@@ -76,6 +76,7 @@ class GoGormAction : AnAction() {
                 builder.append(
                     Arrays.stream(parts)
                         .skip(2)
+                        .map { element -> element.replace("`", "") }
                         .collect(Collectors.joining(" "))
                 )
             }
