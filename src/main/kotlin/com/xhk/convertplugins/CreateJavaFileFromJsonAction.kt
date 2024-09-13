@@ -22,7 +22,7 @@ class CreateJavaFileFromJsonAction : AnAction() {
         dialog.show()
 
         if (dialog.isOK) {
-            val jsonString = dialog.jsonInput
+            val jsonString = dialog.jsonInput.trim()
             val packageName = dialog.packageName
             val className = dialog.className
 

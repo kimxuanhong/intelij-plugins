@@ -23,7 +23,7 @@ class ConvertToCamelCaseAction : AnAction() {
 
                     if (selectedText != null) {
                         // Chuyển đổi văn bản đã chọn thành CamelCase hoặc SnakeCase
-                        val convertedText = convertToCamelCase(selectedText)
+                        val convertedText = convertToCamelCase(selectedText.trim())
 
                         // Thay thế văn bản đã chọn bằng văn bản đã chuyển đổi
                         editor.document.replaceString(caret.selectionStart, caret.selectionEnd, convertedText)
