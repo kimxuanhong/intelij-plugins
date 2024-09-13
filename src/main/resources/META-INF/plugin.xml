@@ -45,6 +45,12 @@
                 description="Generate Implement for gorm">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
         </action>
+        <action id="GoJsonAction"
+                class="com.xhk.convertplugins.GoJsonAction"
+                text="Generate Go Json"
+                description="Generate Implement for json">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
+        </action>
         <action id="ConvertToCamelCaseAction"
                 class="com.xhk.convertplugins.ConvertToCamelCaseAction"
                 text="Convert to Camel"

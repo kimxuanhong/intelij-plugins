@@ -51,10 +51,11 @@ class GoImplementAction : AnAction() {
         builder.append("}\n\n")
 
         builder.append("var instance").append(interfaceName).append(" *").append(interfaceName).append("Impl\n")
-        builder.append("var once sync.Once").append("\n\n")
+        val once = interfaceName[0].lowercaseChar() + interfaceName.substring(1) + "Once"
+        builder.append("var ").append(once).append(" sync.Once").append("\n\n")
 
         builder.append("func ").append(interfaceName).append("Instance() *").append(interfaceName).append("Impl {\n")
-        builder.append("    once.Do(func() {").append("\n")
+        builder.append("    ").append(once).append(".Do(func() {").append("\n")
         builder.append("        instance").append(interfaceName).append(" = &").append(interfaceName).append("Impl{}\n")
         builder.append("    })\n")
         builder.append("    return instance").append(interfaceName).append(";\n")
@@ -98,12 +99,12 @@ class GoImplementAction : AnAction() {
             if (returnType.startsWith("*") || returnType.startsWith("[]") || returnType.startsWith("error")) {
                 method.append("    return nil\n")
             }
-            method.append("}\n")
+            method.append("}\n\n")
         } else {
             // Nếu không có kiểu trả về, chỉ thêm logic xử lý
             method.append("{\n")
             method.append("    // Implement logic here\n")
-            method.append("}\n")
+            method.append("}\n\n")
         }
 
         return method.toString()
