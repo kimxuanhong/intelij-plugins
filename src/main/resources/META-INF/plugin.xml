@@ -39,6 +39,12 @@
                 description="Generate Implement for interface">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
         </action>
+        <action id="GoGormAction"
+                class="com.xhk.convertplugins.GoGormAction"
+                text="Generate Go Gorm"
+                description="Generate Implement for gorm">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
+        </action>
         <action id="ConvertToCamelCaseAction"
                 class="com.xhk.convertplugins.ConvertToCamelCaseAction"
                 text="Convert to Camel"
