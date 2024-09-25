@@ -21,24 +21,24 @@
     </extensions>
 
     <actions>
-        <action id="GoGetSetAction"
-                class="com.xhk.convertplugins.GoGetSetAction"
-                text="Generate Go Getter/Setter"
-                description="Generate Getter/Setter for struct">
-            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
-        </action>
-        <action id="GoBuilderAction"
-                class="com.xhk.convertplugins.GoBuilderAction"
-                text="Generate Go Builder"
-                description="Generate builder for struct">
-            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
-        </action>
-<!--        <action id="GoImplementAction"-->
-<!--                class="com.xhk.convertplugins.GoImplementAction"-->
-<!--                text="Generate Go Implement"-->
-<!--                description="Generate Implement for interface">-->
-<!--            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>-->
-<!--        </action>-->
+        <!--        <action id="GoGetSetAction"-->
+        <!--                class="com.xhk.convertplugins.GoGetSetAction"-->
+        <!--                text="Generate Go Getter/Setter"-->
+        <!--                description="Generate Getter/Setter for struct">-->
+        <!--            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>-->
+        <!--        </action>-->
+        <!--        <action id="GoBuilderAction"-->
+        <!--                class="com.xhk.convertplugins.GoBuilderAction"-->
+        <!--                text="Generate Go Builder"-->
+        <!--                description="Generate builder for struct">-->
+        <!--            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>-->
+        <!--        </action>-->
+        <!--        <action id="GoImplementAction"-->
+        <!--                class="com.xhk.convertplugins.GoImplementAction"-->
+        <!--                text="Generate Go Implement"-->
+        <!--                description="Generate Implement for interface">-->
+        <!--            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>-->
+        <!--        </action>-->
         <action id="GoImplementActionV2"
                 class="com.xhk.convertplugins.GoImplementActionV2"
                 text="Generate Go Implement V2"
@@ -77,18 +77,26 @@
         </action>
         <action id="RemoveUnicodeAction"
                 class="com.xhk.convertplugins.RemoveUnicodeAction"
-                text="Convert to non unicode"
+                text="Convert to Non Unicode"
                 description="Convert to non unicode">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
         </action>
 
         <action
-                id="CreateJavaFileFromJsonAction"
-                class="com.xhk.convertplugins.CreateJavaFileFromJsonAction"
-                text="Create Java File from JSON"
-                description="Generate Java file from JSON input">
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+                id="CreateCoStructFromJsonAction"
+                class="com.xhk.convertplugins.CreateCoStructFromJsonAction"
+                text="Create Go Struct from JSON"
+                description="Generate Go Struct from JSON input">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
         </action>
+
+        <!--        <action-->
+        <!--                id="CreateJavaFileFromJsonAction"-->
+        <!--                class="com.xhk.convertplugins.CreateJavaFileFromJsonAction"-->
+        <!--                text="Create Java File from JSON"-->
+        <!--                description="Generate Java file from JSON input">-->
+        <!--            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>-->
+        <!--        </action>-->
     </actions>
 
 </idea-plugin>
