@@ -4,100 +4,109 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.SelectionModel
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import java.util.*
-import java.util.stream.Collectors
 
 class GoGormAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        // Lấy đoạn văn bản được chọn
         val editor = e.getRequiredData(CommonDataKeys.EDITOR)
-        if (e.project != null) {
-            val caretModel: SelectionModel = editor.selectionModel
-            // Iterate through each caret
-            WriteCommandAction.runWriteCommandAction(e.project) {
-                val selectedText = caretModel.selectedText
-                if (selectedText != null) {
-                    // Chuyển đổi văn bản đã chọn thành CamelCase hoặc SnakeCase
-                    val convertedText = generateGormCode(selectedText.trim())
-                    // Thay thế văn bản đã chọn bằng văn bản đã chuyển đổi
-                    editor.document.replaceString(caretModel.selectionStart, caretModel.selectionEnd, convertedText)
-                } else {
-                    Messages.showMessageDialog(
-                        e.project,
-                        "No text selected!",
-                        "Error",
-                        Messages.getErrorIcon()
-                    )
-                }
+        val project = e.project
+
+        if (project != null) {
+            val selectionModel: SelectionModel = editor.selectionModel
+            val selectedText = selectionModel.selectedText
+
+            if (selectedText != null) {
+                handleTextConversion(project, editor, selectionModel, selectedText.trim())
+            } else {
+                showErrorMessage(project, "No text selected!")
             }
         } else {
-            Messages.showMessageDialog(
-                e.project,
-                "No text selected!",
-                "Error",
-                Messages.getErrorIcon()
-            )
+            showErrorMessage(null, "No project found!")
         }
+    }
+
+    private fun handleTextConversion(
+        project: Project,
+        editor: Editor,
+        selectionModel: SelectionModel,
+        selectedText: String
+    ) {
+        WriteCommandAction.runWriteCommandAction(project) {
+            val convertedText = generateGormCode(selectedText)
+            editor.document.replaceString(selectionModel.selectionStart, selectionModel.selectionEnd, convertedText)
+        }
+    }
+
+    private fun showErrorMessage(project: Project?, message: String) {
+        Messages.showMessageDialog(
+            project,
+            message,
+            "Error",
+            Messages.getErrorIcon()
+        )
     }
 
     private fun generateGormCode(structCode: String): String {
-        // Basic parsing to get struct name
-        val structName = structCode.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
+        val structName = getStructName(structCode)
         val builder = StringBuilder()
-        // Assuming all fields are public and of basic types
-        val lines = structCode.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        for (line in lines) {
-            if (line.trim { it <= ' ' }.isEmpty()) continue
-            if (line.contains("type") || line.trim { it <= ' ' } == "}") {
-                builder.append(line.trim { it <= ' ' }).append("\n")
-                continue
-            }
-            val parts = line.trim { it <= ' ' }.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }
-                .toTypedArray()
-            if (parts.size < 2) continue
-            val fieldName = parts[0]
-            val fieldType = parts[1]
 
-            builder.append("    ").append(fieldName)
-                .append(" ")
-                .append(fieldType)
-                .append(" ")
-                .append("`gorm:\"column:")
-            builder.append(convertToSnakeCase(fieldName))
-            if (fieldName.equals("id", ignoreCase = true)) {
-                builder.append(";primaryKey")
+        structCode.lines()
+            .filter { it.isNotBlank() }
+            .forEach { line ->
+                if (line.contains("type") || line.trim() == "}") {
+                    builder.appendLine(line)
+                } else {
+                    builder.appendLine(convertFieldToGorm(line))
+                }
             }
-            builder.append("\"")
-            if (parts.size > 2) {
-                builder.append(" ")
-                builder.append(
-                    Arrays.stream(parts)
-                        .skip(2)
-                        .map { element -> element.replace("`", "") }
-                        .collect(Collectors.joining(" "))
-                )
-            }
-            builder.append("`\n")
-        }
 
-        builder.append("\n")
-        builder.append("func (")
-        builder.append(structName)
-        builder.append(") TableName() string {\n")
-        builder.append("    return \"").append(convertToSnakeCase(structName))
-            .append("\"\n")
-        builder.append("}\n")
-
+        builder.appendLine()
+            .append("func ($structName) TableName() string {\n")
+            .append("    return \"${convertToSnakeCase(structName)}\"\n")
+            .append("}\n")
 
         return builder.toString()
     }
+
+    private fun getStructName(structCode: String): String {
+        return structCode.split("\\s+".toRegex())
+            .filter { it.isNotBlank() }[1]
+    }
+
+    private fun convertFieldToGorm(line: String): String {
+        val parts = line.trim().split("\\s+".toRegex())
+
+        if (parts.size < 2) return ""
+
+        val fieldName = parts[0]
+        val fieldType = parts[1]
+        val annotations = parts.drop(2).joinToString(" ").replace("`", "")
+
+
+        // Nếu dòng đã có tag json thì không thêm nữa
+        if (annotations.trim().contains("gorm:")) {
+            return "    $fieldName $fieldType `$annotations`"
+        }
+
+        val gormTag = buildString {
+            append("gorm:\"column:${convertToSnakeCase(fieldName)}")
+            if (fieldName.equals("id", ignoreCase = true)) append(";primaryKey")
+            append("\"")
+        }
+
+        return "    $fieldName $fieldType `$gormTag $annotations`"
+    }
+
     private fun convertToSnakeCase(text: String): String {
-        return java.lang.String.join("_", *text.replace("([a-z])([A-Z])".toRegex(), "$1_$2")
+        return text.replace("([a-z])([A-Z])".toRegex(), "$1_$2")
             .replace("([A-Z]+)([A-Z][a-z])".toRegex(), "$1_$2")
-            .split("[ _-]+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        ).lowercase(Locale.getDefault())
+            .split("[ _-]+".toRegex())
+            .joinToString("_")
+            .lowercase(Locale.getDefault())
     }
 }

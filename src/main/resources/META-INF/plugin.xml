@@ -83,8 +83,8 @@
         </action>
 
         <action
-                id="CreateCoStructFromJsonAction"
-                class="com.xhk.convertplugins.CreateCoStructFromJsonAction"
+                id="CreateGoStructFromJsonAction"
+                class="com.xhk.convertplugins.CreateGoStructFromJsonAction"
                 text="Create Go Struct from JSON"
                 description="Generate Go Struct from JSON input">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
