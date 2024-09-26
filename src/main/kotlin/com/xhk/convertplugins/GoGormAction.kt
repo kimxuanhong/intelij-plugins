@@ -58,7 +58,7 @@ class GoGormAction : AnAction() {
         structCode.lines()
             .filter { it.isNotBlank() }
             .forEach { line ->
-                if (line.contains("type") || line.trim() == "}") {
+                if (line.contains("struct") || line.trim() == "}") {
                     builder.appendLine(line)
                 } else {
                     builder.appendLine(convertFieldToGorm(line))

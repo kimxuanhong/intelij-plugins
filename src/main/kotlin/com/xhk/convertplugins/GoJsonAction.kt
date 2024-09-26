@@ -50,7 +50,7 @@ class GoJsonAction : AnAction() {
             lines.forEach { line ->
                 when {
                     line.isEmpty() -> return@forEach
-                    line.contains("type") || line == "}" -> appendLine(line)
+                    line.contains("struct") || line == "}" -> appendLine(line)
                     else -> appendLine(convertFieldToJson(line))
                 }
             }

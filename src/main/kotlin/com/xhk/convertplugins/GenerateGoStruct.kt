@@ -21,21 +21,25 @@ class GenerateGoStruct {
 
             parseObject(objects, node, className)
 
+            mainContent.append("type (\n")
+
             for (pojos in objects) {
                 val content = StringBuilder()
 
                 content.append("\n")
-                    .append("type ").append(pojos.className).append(" struct {\n")
+                    .append("   ").append(pojos.className).append(" struct {\n")
 
                 for ((key1, type) in pojos.fields) {
                     val key = getKey(key1)
                     content.append("\t").append(key).append(" ").append(type).append(" `json:\"").append(key1)
                         .append("\"`\n")
                 }
-                content.append("}")
+                content.append("   }")
 
                 mainContent.append(content).append("\n")
             }
+
+            mainContent.append(")\n")
 
             return mainContent.toString()
         }
