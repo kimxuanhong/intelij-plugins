@@ -31,7 +31,7 @@ class GenerateGoStruct {
 
                 for ((key1, type) in pojos.fields) {
                     val key = getKey(key1)
-                    content.append("\t").append(key).append(" ").append(type).append(" `json:\"").append(key1)
+                    content.append("      ").append(key).append(" ").append(type).append(" `json:\"").append(key1)
                         .append("\"`\n")
                 }
                 content.append("   }")
