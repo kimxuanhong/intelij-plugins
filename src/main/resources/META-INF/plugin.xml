@@ -20,19 +20,9 @@
 
     </extensions>
 
+    <idea-version since-build="232.8660.185" until-build="999.*" />
+
     <actions>
-        <!--        <action id="GoGetSetAction"-->
-        <!--                class="com.xhk.convertplugins.GoGetSetAction"-->
-        <!--                text="Generate Go Getter/Setter"-->
-        <!--                description="Generate Getter/Setter for struct">-->
-        <!--            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>-->
-        <!--        </action>-->
-        <!--        <action id="GoBuilderAction"-->
-        <!--                class="com.xhk.convertplugins.GoBuilderAction"-->
-        <!--                text="Generate Go Builder"-->
-        <!--                description="Generate builder for struct">-->
-        <!--            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>-->
-        <!--        </action>-->
         <action id="GoImplementAction"
                 class="com.xhk.convertplugins.GoImplementAction"
                 text="Generate Go Implement V1"
@@ -90,13 +80,13 @@
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorCut"/>
         </action>
 
-        <!--        <action-->
-        <!--                id="CreateJavaFileFromJsonAction"-->
-        <!--                class="com.xhk.convertplugins.CreateJavaFileFromJsonAction"-->
-        <!--                text="Create Java File from JSON"-->
-        <!--                description="Generate Java file from JSON input">-->
-        <!--            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>-->
-        <!--        </action>-->
+        <action
+                id="CreateJavaFileFromJsonAction"
+                class="com.xhk.convertplugins.CreateJavaFileFromJsonAction"
+                text="Create Java File from JSON"
+                description="Generate Java file from JSON input">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
     </actions>
 
 </idea-plugin>

@@ -32,7 +32,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("232")
-        untilBuild.set("242.*")
+        untilBuild.set("999.*") // 999.* = tương thích mọi bản tương lai
     }
 
     signPlugin {
